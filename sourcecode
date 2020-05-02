@@ -1,0 +1,152 @@
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
+
+public class Application {
+
+	public static void main(String[] args) {
+		// This app is designed to display a count down to a certain date using OS
+		// timing
+
+		Scanner date = new Scanner(System.in);
+		LocalDate userDate = LocalDate.now();
+		DateTimeFormatter formatObject = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		int[] thirtyOneMonthes = { 1, 3, 5, 7, 8, 10, 12 };
+		int thirtyOne = 31;
+		String formatUserDate = userDate.format(formatObject);
+		boolean leap = false;
+
+		/*
+		 * if (userDate.getYear() == 2020) { System.out.println("Sh@t Sher!o$k"); }
+		 */
+
+		System.out.println("Welcome to the Countdown timer app made by Omar Alghothani.");
+		System.out.println("Please enter below the date in which you would like to count down to....");
+
+		// System.out.println(formatUserDate);
+
+		// Year Input and Data Analysis
+		System.out.println("Year: ");
+		int Year = date.nextInt();
+		while (Year < userDate.getYear()) {
+			System.out.println("Please select a date in the future");
+			Year = date.nextInt();
+		}
+
+		// Using a while loop until the user chooses a logical Date
+		System.out.println("Month: ");
+		int Month = date.nextInt();
+		while (Month < 1) {
+			System.out.println("Please select a number between 1-12");
+			Month = date.nextInt();
+		}
+
+		while (Month > 12) {
+			System.out.println("Please select a number between 1-12");
+			Month = date.nextInt();
+		}
+		// Exception to prevent an invalid Day
+		if (Year == userDate.getYear()) {
+			while (Month < userDate.getMonthValue()) {
+				System.out.println("Please select a date in the future");
+				Month = date.nextInt();
+			}
+		}
+
+		System.out.println("Day: ");
+		int Day = date.nextInt();
+		// Exception to prevent an invalid Day
+		while (Day < 0) {
+			System.out.println("Please select a valid day for your Month");
+			Day = date.nextInt();
+		}
+		// Exception to prevent an invalid Day
+		while (Day > 31) {
+			System.out.println("Please select a valid day for your Month");
+			Day = date.nextInt();
+		}
+		if (Day == userDate.getDayOfMonth() && Month == userDate.getMonthValue() && Year == userDate.getYear()) {
+			System.out.println("Choose a date in the future, the task is going to be terminated...");
+			Runtime.getRuntime().exit(1);
+		}
+		if (Day == 29) {
+			if (Year % 4 != 0) {
+				while (Day == 29) {
+					System.out.println("Please select a valid day for your Month");
+					Day = date.nextInt();
+				}
+			}
+		}
+
+		// Exception for Non-ThirtyOneDay Months
+		if (Day == 31) {
+			switch (Month) {
+			// For February, another exception is required. Also leap year :((
+			case 2:
+				while (Day == 31) {
+					System.out.println("Please select a valid day for your Month");
+					Day = date.nextInt();
+				}
+				break;
+			case 4:
+				while (Day == 31) {
+					System.out.println("Please select a valid day for your Month");
+					Day = date.nextInt();
+				}
+				break;
+			case 6:
+				while (Day == 31) {
+					System.out.println("Please select a valid day for your Month");
+					Day = date.nextInt();
+				}
+				break;
+			case 9:
+				while (Day == 31) {
+					System.out.println("Please select a valid day for your Month");
+					Day = date.nextInt();
+				}
+				break;
+			case 11:
+				while (Day == 31) {
+					System.out.println("Please select a valid day for your Month");
+					Day = date.nextInt();
+				}
+				break;
+
+			}
+
+		}
+
+		if (Year == userDate.getYear() && Month == userDate.getMonthValue()) {
+			if (Day <= userDate.getDayOfMonth()) {
+				while (Day <= userDate.getDayOfMonth()) {
+					System.out.println("Please select a date in the future");
+					Day = date.nextInt();
+				}
+			}
+		}
+
+		// Exception for February not equal to 30
+		switch (Month) {
+		case 2:
+			while (Day == 30) {
+				System.out.println("Please select a valid day for your Month");
+				Day = date.nextInt();
+			}
+			break;
+		}
+		// Class to calculate the period between 2 dates
+		LocalDate inputDate = LocalDate.of(Year, Month, Day);
+		Period age = Period.between(userDate, inputDate);
+		int afterYears = age.getYears();
+		int afterMonthes = age.getMonths();
+		int afterDays = age.getDays();
+
+		System.out.println("Years Left: " + afterYears);
+		System.out.println("Months Left: " + afterMonthes);
+		System.out.println("Days Left: " + afterDays);
+	}
+
+	// System.out.println("Processing...");
+}
